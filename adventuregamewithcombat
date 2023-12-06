@@ -1,0 +1,100 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Thu Nov 16 11:34:48 2023
+
+@author: Stephanie McCarthy
+"""
+import tbc
+
+def main():
+    game = getGame()
+    keepGoing = True
+    nextNode = "start"
+    while keepGoing:
+        nextNode = playNode(game, nextNode, combat)
+        if nextNode == "end":
+            keepGoing = False
+
+def getGame():
+    game = {
+ "fight": ["desc", "win", "continue", "lose", "kick"],
+ "start": ["Welcome to Castle Escape.", "Start the game", "wake", "Exit", "end"], 
+ "end": ["Game over.", "Start over?", "start", "Exit", "end"], 
+ "wake": ["You wake up in a cellar. What do you do?", "Wait for someone.", "starve", "Try to open the door", "door"], 
+ "starve": ["No one ever shows up. You starve to death. Yikes!", "Start over?", "start", "Exit", "end"], 
+ "door": ["You jiggle the knob. It doesn't budge, you need a key. ", "Check in the drawers", "drawer", "Check under the dresser", "dresser"], 
+ "drawer": ["You open each of the drawers, you find a green key! (Green key added to inventory)", "Open the door", "enter", "Eat the key.", "die1"], 
+ "dresser": ["You look underneath the dresser. There's just dust.", "Check in the drawers", "drawer", "Check under the dresser", "dresser"], 
+ "shoe": ["Why would it be there?", "Check in the drawers", "drawer", "Check under the dresser", "dresser"], 
+ "enter": ["You use the key and open the door. You walk into a dark hallway.", "Go to the left?", "left", "Go to the right?", "right"], 
+ "die1": ["You die.", "Start over?", "start", "Exit", "end"], 
+ "left": ["You turn left and go down the hallway and find another room. ", "Enter the room", "room", "Go the other way.", "right"], 
+ "right": ["You turn right and go down the hallway and find a chest at the end of it. ", "Open it.", "chest", "Kick it.", "kick"], 
+ "room": ["The room is large with a large table with food. You realize you're starving. Along with a door toward the back.", "Eat the food?", "eat", "Go through the door", "nextdoor"], 
+ "chest": ["You open it and find a copper key. (Copper key added to inventory)",  "Continue down the hallway", "continue", "Turn around.", "left"], 
+ "kick": ["A little goblin comes out and kills you. Oh no! (add combat)", "Start over?", "start", "Exit", "end"], 
+ "eat": ["You start feeling nauseous and can't walk anymore. Uh oh...", "Start over?", "start", "Exit", "end"], 
+ "continue": ["As you continue down the hall, you go upstairs and see a door with light shining through", "Go through the door.", "through", "Turn around. "], 
+ "through": ["You use the copper key and escape! You win!", "Start over?", "start", "Exit", "end"], 
+ "nextdoor": ["You walk into another room that's much smaller. There's a small box on the ground and another door. ", "Pick it up", "pick", "Open the door", "lock"], 
+ "pick": ["You open the box and find a tiny unicorn.", "Pet it", "pet", "Put it in your pocket", "pocket"], 
+ "lock": ["The door's locked... again. You need something to open it. ", "Open the box", "pick", "Smash through the door", "die"], 
+ "pet": ["You try to pet the unicorn but it attacks you! Yikes.", "Start over?", "start", "Exit", "end"], 
+ "pocket": ["You find once you put the unicorn in your pocket, it turns into a small key. ", "Use the key.", "key", "Put it back.", "over"], 
+ "die": ["You severely injured yourself, you cannot continue on. ", "Start over?", "start", "Exit", "end"], 
+ "key": ["You open the door and are brought into the wilderness. You escaped! You win!", "Start over?", "start", "Exit", "end"], 
+ "over": ["You have nothing else to do.", "Use the key. ", "key", "Use the key. ", "key"], 
+ 
+ }
+
+    return game
+
+def playNode(game, currentNode, combat):
+    (desc, menuA, nodeA, menuB, nodeB) = game[currentNode]
+
+    if currentNode == "end":
+        quit()
+
+    if currentNode == "fight":
+        nextNode = combat()
+        if currentNode == "win":
+            nextNode = "kick"
+        else:
+            nextNode = "continue"
+    else:
+
+        print (f"""
+        {desc}
+        1) {menuA}
+        2) {menuB}
+        """)
+        userChoice = input("Your choice: ")
+    
+        if userChoice == "1":
+            nextNode = nodeA
+        elif userChoice == "2":
+            nextNode = nodeB
+        else:
+            print ("Not a valid input. Please enter '1' or '2.'")
+            nextNode = currentNode
+
+    return nextNode
+    
+
+def combat():
+    hero = tbc.Character()
+    hero.name = "You"
+    hero.hitPoints = 10
+    hero.hitChance = 50
+    hero.maxDamage = 5
+    hero.armor = 2
+
+    monster = tbc.Character("Goblin", 15, 60, 5, 0)
+
+    print("You attack the goblin...")
+    hero.printStats()
+    monster.printStats()
+
+    tbc.fight(hero, monster)
+
+main()
