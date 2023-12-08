@@ -32,7 +32,7 @@ def getGame():
  "right": ["You turn right and go down the hallway and find a chest at the end of it. ", "Open it.", "chest", "Kick it.", "kick"], 
  "room": ["The room is large with a large table with food. You realize you're starving. Along with a door toward the back.", "Eat the food?", "eat", "Go through the door", "nextdoor"], 
  "chest": ["You open it and find a copper key. (Copper key added to inventory)",  "Continue down the hallway", "continue", "Turn around.", "left"], 
- "kick": ["A little goblin comes out and kills you. Oh no! (add combat)", "Start over?", "start", "Exit", "end"], 
+ "kick": ["A little goblin comes out and kills you. Oh no! (add combat)", "Fight back", "fight", "Surrender", "die1"], 
  "eat": ["You start feeling nauseous and can't walk anymore. Uh oh...", "Start over?", "start", "Exit", "end"], 
  "continue": ["As you continue down the hall, you go upstairs and see a door with light shining through", "Go through the door.", "through", "Turn around. "], 
  "through": ["You use the copper key and escape! You win!", "Start over?", "start", "Exit", "end"], 
